@@ -1,0 +1,53 @@
+{
+	"name": "n8n-nodes-artsoft",
+	"version": "2.0.0",
+	"description": "n8n community node for ARTSOFT ERP integration via XML",
+	"license": "MIT",
+	"homepage": "https://github.com/ARTSOFT-TI/n8n-node-artsoft",
+	"keywords": [
+		"n8n-community-node-package"
+	],
+	"author": {
+		"name": "ARTSOFT Business Software",
+		"email": "programacao@artsoft.pt"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ARTSOFT-TI/n8n-node-artsoft.git"
+	},
+	"scripts": {
+		"build": "n8n-node build",
+		"build:watch": "tsc --watch",
+		"dev": "n8n-node dev",
+		"lint": "n8n-node lint",
+		"lint:fix": "n8n-node lint --fix",
+		"release": "n8n-node release",
+		"prepublishOnly": "n8n-node prerelease",
+		"test": "tsc && node --test \"tests/*.test.mjs\""
+	},
+	"files": [
+		"dist"
+	],
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"strict": true,
+		"credentials": [
+			"dist/credentials/ArtsoftApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/Artsoft/Artsoft.node.js"
+		]
+	},
+	"devDependencies": {
+		"@n8n/node-cli": "*",
+		"eslint": "9.39.4",
+		"fast-xml-parser": "4.5.7",
+		"prettier": "3.8.3",
+		"release-it": "20.2.0",
+		"typescript": "5.9.3",
+		"xmlbuilder2": "3.1.1"
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
+	}
+}
