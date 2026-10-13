@@ -25,6 +25,9 @@
 		"prepublishOnly": "n8n-node prerelease",
 		"test": "tsc && node --test \"tests/*.test.mjs\""
 	},
+	"publishConfig": {
+		"access": "public"
+	},
 	"files": [
 		"dist"
 	],
