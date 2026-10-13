@@ -3,6 +3,7 @@ import type {
 	IAuthenticateGeneric,
 	Icon,
 	ICredentialDataDecryptedObject,
+	ICredentialTestRequest,
 	ICredentialType,
 	IDataObject,
 	IHttpRequestHelper,
@@ -47,8 +48,7 @@ function getDeviceName(credentials: ICredentialDataDecryptedObject): string {
  * Registers this credential as a device in ARTSOFT (POST /ArtConn/AppRegister).
  * ARTSOFT returns the ApiKey/Secret only once, so the result must be persisted by n8n
  * (hidden credential fields) and registration must never be repeated for the same device.
- * n8n persists it only when a workflow runs, not when a credential is tested, so the credential
- * test (see credentialTest.ts) never registers.
+ * The credential test request below is meant to be a reachability check only.
  */
 async function registerDevice(
 	helpers: IHttpRequestHelper,
@@ -250,6 +250,21 @@ export class ArtsoftApi implements ICredentialType {
 			throw error;
 		}
 	}
+
+	/**
+	 * Reachability check: GET /login answers (any HTTP status) when host, port and protocol are
+	 * right. Errors are ignored because the request carries no device signature.
+	 */
+	test: ICredentialTestRequest = {
+		request: {
+			baseURL: '={{$credentials.protocol}}://{{$credentials.hostIp}}:{{$credentials.port}}',
+			url: '/login',
+			method: 'GET',
+			skipSslCertificateValidation:
+				'={{$credentials.protocol === "https" && $credentials.rejectUnauthorized === false}}',
+			ignoreHttpStatusErrors: true,
+		},
+	};
 
 	authenticate: IAuthenticateGeneric = {
 		type: 'generic',

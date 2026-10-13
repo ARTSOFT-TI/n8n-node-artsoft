@@ -42,7 +42,7 @@ Create an **ARTSOFT API** credential with:
 
 There is no username or password. Authentication works per **device**:
 
-1. The first time a **workflow runs** with the credential, the node registers a new device in ARTSOFT (`AppRegister`). ARTSOFT returns an API key and secret **only once**; n8n stores them encrypted in the credential. Testing or saving the credential does not register a device: it only checks that the required settings are filled in.
+1. The first time a **workflow runs** with the credential, the node registers a new device in ARTSOFT (`AppRegister`). ARTSOFT returns an API key and secret **only once**; n8n stores them encrypted in the credential. The credential test only checks that the connector answers at the given host, port and protocol.
 2. The device stays *pending* until someone **approves it in ARTSOFT**. Until then requests fail with a message asking for the approval. Run the workflow again after approving. It can take a few minutes for the approval to take effect.
 3. For every session the node logs in with a signed request and sends the returned access token as a bearer token. The token is renewed automatically.
 

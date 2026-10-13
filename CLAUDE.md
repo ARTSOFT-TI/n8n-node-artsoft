@@ -31,8 +31,7 @@ Releases go through `npm run release` (release-it) and the `Publish` GitHub Acti
 
 ```
 credentials/ArtsoftApi.credentials.ts   # credential `artsoftApi`: device registration + login
-nodes/Artsoft/Artsoft.node.ts           # node description, loadOptions, credentialTest, execute loop
-nodes/Artsoft/credentialTest.ts         # credential test (validates settings, no registration)
+nodes/Artsoft/Artsoft.node.ts           # node description, loadOptions, execute loop
 nodes/Artsoft/GenericFunctions.ts       # artsoftApiRequest(): POST XML, parse response
 nodes/Artsoft/resolver/                 # one folder per resource (properties + XML builders)
 helper/xml.ts                           # dependency-free parseXml / buildXml / fixEncoding
@@ -51,7 +50,7 @@ ARTSOFT requires every integration to be registered as a **device** and approved
 
 A new device stays pending until approved in ARTSOFT; the login error says so. After approving, the login can keep returning 401 for a while; it works after waiting. A lost `Secret` can only be recovered by deleting the device in ARTSOFT (back office or MobileManager) and registering again.
 
-**The credential test must never register a device** (`nodes/Artsoft/credentialTest.ts`, wired with `testedBy: 'artsoftApiTest'`; the credential has no `test` request). n8n persists what `preAuthentication` returns only when a workflow runs, not reliably while a credential is tested, and the server rejects a second registration, so every Save/Retry would register a new device and lose its keys. The test only checks that Host IP, Port and Contact are set and makes no HTTP request: the function-based test context only offers the deprecated `helpers.request`, which the lint rejects. The device is registered on the first workflow execution.
+**Credential test** (`test` property on the credential, required by the n8n reviewers; a function-based `testedBy` was rejected as "Missing credential test"). It is a declarative `GET /login` reachability check with `ignoreHttpStatusErrors`. Verified manually in a real n8n instance against ARTSOFT (2026-10-13): testing and saving a new credential does not leave an orphan device and the next workflow run reuses the keys. Repeat that check if the test request or `preAuthentication` changes.
 
 ### Requests
 

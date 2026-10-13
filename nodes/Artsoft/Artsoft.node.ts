@@ -25,7 +25,6 @@ import {
 import { workflowOperations, workflowProperties } from './resolver/workflow/workflow.properties';
 import { eventOperations, eventProperties } from './resolver/event/event.properties';
 import { artsoftApiRequest } from './GenericFunctions';
-import { artsoftApiTest } from './credentialTest';
 import { buildXml, fixEncoding } from '../../helper/xml';
 
 export class Artsoft implements INodeType {
@@ -47,7 +46,6 @@ export class Artsoft implements INodeType {
 			{
 				name: 'artsoftApi',
 				required: true,
-				testedBy: 'artsoftApiTest',
 			},
 		],
 		properties: [
@@ -167,9 +165,6 @@ export class Artsoft implements INodeType {
 	};
 
 	methods = {
-		credentialTest: {
-			artsoftApiTest,
-		},
 		loadOptions: {
 			/**
 			 * Loads the priorities available in ARTSOFT (Workflow/GetTables tab=PRI).
