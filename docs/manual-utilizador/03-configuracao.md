@@ -39,7 +39,7 @@ O registo do dispositivo acontece **quando um fluxo corre pela primeira vez** co
 
 ## Passo 3 — Aprovar o dispositivo no ARTSOFT
 
-1. Abra o ARTSOFT (back office ou MobileManager) com um utilizador que tenha permissão para gerir dispositivos.
+1. Abra o ARTSOFT com um utilizador que tenha permissão para gerir dispositivos.
 2. Procure o dispositivo com o nome que indicou em **Device Name** (por omissão, `n8n`). Estará como **pendente**.
 3. **Aprove-o.**
 4. Volte ao n8n e execute o fluxo outra vez.
@@ -53,7 +53,7 @@ A partir daqui a ligação fica pronta. O n8n renova sozinho o acesso sempre que
 | Situação | O que fazer |
 |---|---|
 | Quero ligar o n8n a **dois ARTSOFT diferentes** (ex.: produção e testes) | Crie **duas credenciais**, com nomes de dispositivo diferentes |
-| **Apaguei a credencial** no n8n e preciso de a recriar | O ARTSOFT não entrega as chaves uma segunda vez. Apague primeiro o dispositivo antigo no ARTSOFT (back office ou MobileManager) e crie a credencial de novo |
+| **Apaguei a credencial** no n8n e preciso de a recriar | O ARTSOFT não entrega as chaves uma segunda vez. Apague primeiro o dispositivo antigo no ARTSOFT e crie a credencial de novo |
 | Mudei o **endereço ou a porta** do servidor | Edite os campos da credencial e guarde. Não é preciso registar de novo |
 | O ARTSOFT diz que o dispositivo **já existe** | Apague o dispositivo no ARTSOFT e volte a executar o fluxo com uma credencial nova |
 | Mudei o **Device Name** numa credencial que já funciona | Não tem efeito no dispositivo já registado. Para mudar o nome, crie uma credencial nova |

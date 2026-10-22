@@ -31,7 +31,7 @@ Isto quer dizer que o ARTSOFT recebeu o pedido mas **não o aceitou**. Confirme 
 | O teste da credencial falha | Endereço, porta ou protocolo errados, ou o ARTSOFT não é acessível a partir do n8n | Confirme os dados com a área informática; verifique firewall e rede |
 | O teste da credencial passa, mas o fluxo falha | Dispositivo ainda não aprovado | Aprove o dispositivo no ARTSOFT |
 | Erro com certificados (HTTPS) | Certificado autoassinado ou inválido | Em testes, desligue **Reject Invalid Certificates**. Em produção, instale um certificado válido |
-| "ARTSOFT did not return an API key for this device" | O dispositivo já tinha sido registado antes e o ARTSOFT não volta a dar as chaves | Apague o dispositivo no ARTSOFT (back office ou MobileManager) e execute de novo |
+| "ARTSOFT did not return an API key for this device" | O dispositivo já tinha sido registado antes e o ARTSOFT não volta a dar as chaves | Apague o dispositivo no ARTSOFT e execute de novo |
 | Deixou de funcionar depois de apagar e recriar a credencial | O ARTSOFT guarda o dispositivo antigo | Apague o dispositivo antigo no ARTSOFT |
 | **ARTSOFT rejected the request (code …)** | Valores inválidos, registo que não existe, ou regra do ARTSOFT que impede a operação | Verifique números, códigos e campos obrigatórios |
 | As listas de prioridades ou de campos adicionais aparecem vazias | Sem ligação ou sem dados configurados | Ver [capítulo 8](08-workflows-artsoft.md) |
