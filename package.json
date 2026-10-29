@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-artsoft",
-	"version": "3.0.2",
+	"version": "3.0.3",
 	"description": "n8n community node for ARTSOFT ERP integration via XML",
 	"license": "MIT",
 	"homepage": "https://github.com/ARTSOFT-TI/n8n-node-artsoft",
