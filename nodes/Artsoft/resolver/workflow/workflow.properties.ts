@@ -1,4 +1,5 @@
 import { INodeProperties } from 'n8n-workflow';
+import { returnAllProperties } from '../../GenericFunctions';
 
 export const workflowOperations = [
 	{
@@ -76,49 +77,41 @@ export const workflowProperties: INodeProperties[] = [
 		description: 'User ID in ARTSOFT',
 	},
 	{
-		displayName: 'Page Size',
-		name: 'workflowPageSize',
-		type: 'number',
-		default: 20,
+		displayName: 'Filters',
+		name: 'workflowFilters',
+		type: 'collection',
+		placeholder: 'Add Filter',
+		default: {},
 		displayOptions: { show: { resource: ['workflow'], operation: ['getWorkflows'] } },
-		description: 'Number of records per page',
-	},
-	{
-		displayName: 'Cursor (Next)',
-		name: 'workflowNext',
-		type: 'string',
-		default: '0',
-		displayOptions: { show: { resource: ['workflow'], operation: ['getWorkflows'] } },
-		description: 'Pagination cursor returned by the previous response (0 for the first page)',
-	},
-	{
-		displayName: 'Sort Order',
-		name: 'workflowSortDirection',
-		type: 'options',
 		options: [
-			{ name: 'Descending (Newest First)', value: 'DESC' },
-			{ name: 'Ascending (Oldest First)', value: 'ASC' },
+			{
+				displayName: 'Show Actions',
+				name: 'showActions',
+				type: 'boolean',
+				default: false,
+				description: 'Whether to show the actions of the records',
+			},
+			{
+				displayName: 'Show Additional Fields',
+				name: 'showAdditionalFields',
+				type: 'boolean',
+				default: false,
+				description: 'Whether to include additional fields in the response',
+			},
+			{
+				displayName: 'Sort Order',
+				name: 'sortDirection',
+				type: 'options',
+				options: [
+					{ name: 'Descending (Newest First)', value: 'DESC' },
+					{ name: 'Ascending (Oldest First)', value: 'ASC' },
+				],
+				default: 'DESC',
+				description: 'Sort direction of the results',
+			},
 		],
-		default: 'DESC',
-		displayOptions: { show: { resource: ['workflow'], operation: ['getWorkflows'] } },
-		description: 'Sort direction of the results',
 	},
-	{
-		displayName: 'Show Actions',
-		name: 'workflowShowActions',
-		type: 'boolean',
-		default: false,
-		displayOptions: { show: { resource: ['workflow'], operation: ['getWorkflows'] } },
-		description: 'Whether to show the actions of the records',
-	},
-	{
-		displayName: 'Show Additional Fields',
-		name: 'workflowShowCdu',
-		type: 'boolean',
-		default: false,
-		displayOptions: { show: { resource: ['workflow'], operation: ['getWorkflows'] } },
-		description: 'Whether to include additional fields in the response',
-	},
+	...returnAllProperties('workflow', ['getWorkflows']),
 
 	// ══════════════════════════════════════════════════════════════════
 	// GET WORKFLOW DETAIL
@@ -142,13 +135,21 @@ export const workflowProperties: INodeProperties[] = [
 	// CREATE / UPDATE WORKFLOW
 	// ══════════════════════════════════════════════════════════════════
 	{
-		displayName: 'Customer Number',
-		name: 'workflowClientNumber',
-		type: 'string',
-
-		default: '',
+		displayName: 'Additional Fields',
+		name: 'workflowCreateFields',
+		type: 'collection',
+		placeholder: 'Add Field',
+		default: {},
 		displayOptions: { show: { resource: ['workflow'], operation: ['createWorkflow'] } },
-		description: 'Customer number to associate with the workflow',
+		options: [
+			{
+				displayName: 'Customer Number',
+				name: 'clientNumber',
+				type: 'string',
+				default: '',
+				description: 'Customer number to associate with the workflow',
+			},
+		],
 	},
 	{
 		displayName: 'Subject',

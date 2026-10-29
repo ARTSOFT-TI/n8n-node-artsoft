@@ -250,7 +250,16 @@ export class Artsoft implements INodeType {
 			try {
 				const operation = this.getNodeParameter('operation', i) as string;
 
-				const parsed: Record<string, unknown> = await artResolver.resolve(operation, i);
+				const result = await artResolver.resolve(operation, i);
+
+				// List operations return one record per output item.
+				if (Array.isArray(result)) {
+					for (const record of result) {
+						returnData.push({ json: record, pairedItem: i });
+					}
+					continue;
+				}
+				const parsed = result;
 
 				const root =
 					(parsed['message'] as IDataObject) ||

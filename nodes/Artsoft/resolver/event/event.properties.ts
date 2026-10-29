@@ -175,53 +175,58 @@ export const eventProperties: INodeProperties[] = [
 	// LIST EVENTS — Filters
 	// ══════════════════════════════════════════════════════════════════
 	{
-		displayName: 'Status',
-		name: 'eventDetail',
-		type: 'options',
-		default: 'A',
+		displayName: 'Filters',
+		name: 'eventFilters',
+		type: 'collection',
+		placeholder: 'Add Filter',
+		default: {},
+		displayOptions: { show: { resource: ['event'], operation: ['listEvents'] } },
 		options: [
-			{ name: 'All', value: 'A' },
-			{ name: 'Pending', value: 'P' },
-			{ name: 'Completed', value: 'F' },
+			{
+				displayName: 'Include Event Additional Fields',
+				name: 'includeEventAdditionalFields',
+				type: 'boolean',
+				default: true,
+				description: 'Whether to include the content of the event additional record fields',
+			},
+			{
+				displayName: 'Include Third-Party Additional Fields',
+				name: 'includeThirdPartyAdditionalFields',
+				type: 'boolean',
+				default: true,
+				description: 'Whether to include the content of the third-party additional record fields',
+			},
+			{
+				displayName: 'Show Hidden Details',
+				name: 'showHiddenDetails',
+				type: 'boolean',
+				default: true,
+				description: 'Whether to include hidden details in the response',
+			},
+			{
+				displayName: 'Sort Order',
+				name: 'sortOrder',
+				type: 'options',
+				default: 'D',
+				options: [
+					{ name: 'Descending (Newest First)', value: 'D' },
+					{ name: 'Ascending (Oldest First)', value: 'A' },
+				],
+				description: 'Sort direction of the event details',
+			},
+			{
+				displayName: 'Status',
+				name: 'status',
+				type: 'options',
+				default: 'A',
+				options: [
+					{ name: 'All', value: 'A' },
+					{ name: 'Pending', value: 'P' },
+					{ name: 'Completed', value: 'F' },
+				],
+				description: 'Filter events by status',
+			},
 		],
-		displayOptions: { show: { resource: ['event'], operation: ['listEvents'] } },
-		description: 'Filter events by status',
-	},
-	{
-		displayName: 'Sort Order',
-		name: 'eventDetOrder',
-		type: 'options',
-		default: 'D',
-		options: [
-			{ name: 'Descending (Newest First)', value: 'D' },
-			{ name: 'Ascending (Oldest First)', value: 'A' },
-		],
-		displayOptions: { show: { resource: ['event'], operation: ['listEvents'] } },
-		description: 'Sort direction of the event details',
-	},
-	{
-		displayName: 'Show Hidden Details',
-		name: 'eventDethidden',
-		type: 'boolean',
-		default: true,
-		displayOptions: { show: { resource: ['event'], operation: ['listEvents'] } },
-		description: 'Whether to include hidden details in the response',
-	},
-	{
-		displayName: 'Include Event Additional Fields',
-		name: 'eventFduEvt',
-		type: 'boolean',
-		default: true,
-		displayOptions: { show: { resource: ['event'], operation: ['listEvents'] } },
-		description: 'Whether to include the content of the event additional record fields',
-	},
-	{
-		displayName: 'Include Third-Party Additional Fields',
-		name: 'eventFduTer',
-		type: 'boolean',
-		default: true,
-		displayOptions: { show: { resource: ['event'], operation: ['listEvents'] } },
-		description: 'Whether to include the content of the third-party additional record fields',
 	},
 
 	// ══════════════════════════════════════════════════════════════════
@@ -270,11 +275,20 @@ export const eventProperties: INodeProperties[] = [
 	// DELETE EVENT
 	// ══════════════════════════════════════════════════════════════════
 	{
-		displayName: 'Force Deletion',
-		name: 'eventForceDel',
-		type: 'boolean',
-		default: false,
+		displayName: 'Additional Fields',
+		name: 'eventDeleteFields',
+		type: 'collection',
+		placeholder: 'Add Field',
+		default: {},
 		displayOptions: { show: { resource: ['event'], operation: ['deleteEvent'] } },
-		description: 'Whether to delete the event even if it already has recorded handling',
+		options: [
+			{
+				displayName: 'Force Deletion',
+				name: 'forceDelete',
+				type: 'boolean',
+				default: false,
+				description: 'Whether to delete the event even if it already has recorded handling',
+			},
+		],
 	},
 ];

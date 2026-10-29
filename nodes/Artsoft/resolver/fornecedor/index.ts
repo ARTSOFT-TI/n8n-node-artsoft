@@ -1,5 +1,5 @@
 import { IExecuteFunctions } from 'n8n-workflow';
-import { artsoftApiRequest } from '../../GenericFunctions';
+import { artsoftApiRequest, getOptionalField } from '../../GenericFunctions';
 import { buildXml } from '../../../../helper/xml';
 
 export async function executeGetSupplier(
@@ -27,10 +27,10 @@ export async function executeCreateSupplier(
 	i: number,
 ): Promise<Record<string, unknown>> {
 	const name = this.getNodeParameter('supplierName', i) as string;
-	const nif = this.getNodeParameter('supplierNif', i) as string;
-	const email = this.getNodeParameter('supplierEmail', i) as string;
-	const phone = this.getNodeParameter('supplierPhone', i) as string;
-	const obs = this.getNodeParameter('supplierObs', i) as string;
+	const nif = getOptionalField(this, i, 'supplierAdditionalFields', 'nif', '');
+	const email = getOptionalField(this, i, 'supplierAdditionalFields', 'email', '');
+	const phone = getOptionalField(this, i, 'supplierAdditionalFields', 'phone', '');
+	const obs = getOptionalField(this, i, 'supplierAdditionalFields', 'notes', '');
 	const address = this.getNodeParameter('supplierAddress', i) as {
 		street?: string;
 		city?: string;
@@ -65,11 +65,11 @@ export async function executeUpdateSupplier(
 	i: number,
 ): Promise<Record<string, unknown>> {
 	const numberFor = this.getNodeParameter('numberFor', i) as string;
-	const name = this.getNodeParameter('supplierName', i) as string;
-	const nif = this.getNodeParameter('supplierNif', i) as string;
-	const email = this.getNodeParameter('supplierEmail', i) as string;
-	const phone = this.getNodeParameter('supplierPhone', i) as string;
-	const obs = this.getNodeParameter('supplierObs', i) as string;
+	const name = getOptionalField(this, i, 'supplierUpdateFields', 'name', '');
+	const nif = getOptionalField(this, i, 'supplierUpdateFields', 'nif', '');
+	const email = getOptionalField(this, i, 'supplierUpdateFields', 'email', '');
+	const phone = getOptionalField(this, i, 'supplierUpdateFields', 'phone', '');
+	const obs = getOptionalField(this, i, 'supplierUpdateFields', 'notes', '');
 	const address = this.getNodeParameter('supplierAddress', i) as {
 		street?: string;
 		city?: string;

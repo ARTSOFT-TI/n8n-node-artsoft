@@ -1,0 +1,4 @@
+{
+	"endpoint": "StkFch/Update",
+	"body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><SKU trans=\"S\" status=\"S\" retID=\"S\"><MainRec><Cod.Codigo>P2</Cod.Codigo><Nome.0>Produto 2</Nome.0></MainRec></SKU>"
+}

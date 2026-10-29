@@ -1,4 +1,4 @@
-import { IExecuteFunctions, NodeOperationError } from 'n8n-workflow';
+import { IDataObject, IExecuteFunctions, NodeOperationError } from 'n8n-workflow';
 import {
 	executeCreateClient,
 	executeDeleteClient,
@@ -45,7 +45,7 @@ export class ArtResolver {
 		this.context = _rootctx;
 	}
 
-	async resolve(op: string, i: number): Promise<Record<string, unknown>> {
+	async resolve(op: string, i: number): Promise<Record<string, unknown> | IDataObject[]> {
 		switch (op) {
 			// CUSTOMER
 			case 'createClient':

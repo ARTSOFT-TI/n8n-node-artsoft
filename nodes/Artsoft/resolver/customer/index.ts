@@ -1,5 +1,5 @@
 import { IExecuteFunctions } from 'n8n-workflow';
-import { artsoftApiRequest } from '../../GenericFunctions';
+import { artsoftApiRequest, getOptionalField } from '../../GenericFunctions';
 import { buildXml } from '../../../../helper/xml';
 
 export async function executeGetClient(
@@ -27,11 +27,11 @@ export async function executeUpdateClient(
 	i: number,
 ): Promise<Record<string, unknown>> {
 	const numberCli = this.getNodeParameter('numberCli', i) as string;
-	const name = this.getNodeParameter('clientName', i) as string;
-	const nif = this.getNodeParameter('clientNif', i) as string;
-	const email = this.getNodeParameter('clientEmail', i) as string;
-	const phone = this.getNodeParameter('clientPhone', i) as string;
-	const obs = this.getNodeParameter('clientObs', i) as string;
+	const name = getOptionalField(this, i, 'clientUpdateFields', 'name', '');
+	const nif = getOptionalField(this, i, 'clientUpdateFields', 'nif', '');
+	const email = getOptionalField(this, i, 'clientUpdateFields', 'email', '');
+	const phone = getOptionalField(this, i, 'clientUpdateFields', 'phone', '');
+	const obs = getOptionalField(this, i, 'clientUpdateFields', 'notes', '');
 	const address = this.getNodeParameter('clientAddress', i) as {
 		street?: string;
 		city?: string;
@@ -80,10 +80,10 @@ export async function executeCreateClient(
 	i: number,
 ): Promise<Record<string, unknown>> {
 	const name = this.getNodeParameter('clientName', i) as string;
-	const nif = this.getNodeParameter('clientNif', i) as string;
-	const email = this.getNodeParameter('clientEmail', i) as string;
-	const phone = this.getNodeParameter('clientPhone', i) as string;
-	const obs = this.getNodeParameter('clientObs', i) as string;
+	const nif = getOptionalField(this, i, 'clientAdditionalFields', 'nif', '');
+	const email = getOptionalField(this, i, 'clientAdditionalFields', 'email', '');
+	const phone = getOptionalField(this, i, 'clientAdditionalFields', 'phone', '');
+	const obs = getOptionalField(this, i, 'clientAdditionalFields', 'notes', '');
 	const address = this.getNodeParameter('clientAddress', i) as {
 		street?: string;
 		city?: string;

@@ -1,5 +1,5 @@
 import { IExecuteFunctions } from 'n8n-workflow';
-import { artsoftApiRequest } from '../../GenericFunctions';
+import { artsoftApiRequest, getOptionalField } from '../../GenericFunctions';
 import { buildXml } from '../../../../helper/xml';
 
 export async function executeGetDocument(
@@ -48,7 +48,7 @@ export async function executeCreateDocument(
 	const docID = this.getNodeParameter('docID', i) as string;
 	const entityType = this.getNodeParameter('entityType', i) as string;
 	const entityID = `${entityType}:${this.getNodeParameter('entityID', i) as string}`;
-	const obs = this.getNodeParameter('docObs', i) as string;
+	const obs = getOptionalField(this, i, 'documentAdditionalFields', 'notes', '');
 	const docItemsParam = this.getNodeParameter('docItems', i) as {
 		item?: Array<{ codigo: string; qtd: number; valUnBru: number }>;
 	};
@@ -96,7 +96,7 @@ export async function executeDeleteDocument(
 	i: number,
 ): Promise<Record<string, unknown>> {
 	const docID = this.getNodeParameter('deleteDocID', i) as string;
-	const motDel = this.getNodeParameter('motDel', i) as number;
+	const motDel = getOptionalField(this, i, 'documentDeleteFields', 'deletionReason', 0);
 
 	const documentBody: Record<string, unknown> = {
 		'@docID': docID,

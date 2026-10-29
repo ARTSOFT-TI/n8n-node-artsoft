@@ -1,0 +1,4 @@
+{
+	"endpoint": "Workflow/UpdWorkflow",
+	"body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root logTpOp=\"USR\" logOp=\"2\"><rec a=\"U\" id=\"158\" prior=\"75\" obs=\"Assunto\" stObs=\"obs\"/></root>"
+}

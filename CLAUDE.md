@@ -24,7 +24,7 @@ Releases go through `npm run release` (release-it) and the `Publish` GitHub Acti
 - **No runtime dependencies.** `dependencies` must stay empty; imports other than `n8n-workflow` and Node built-ins are rejected by the lint. `fast-xml-parser` and `xmlbuilder2` are pinned `devDependencies` used only as a test oracle.
 - **No file system or environment access** (`fs`, `os`, `process.env`). Everything the node needs comes from node parameters or credentials.
 - **English only** for UI text, descriptions and error messages. Follow the n8n UX guidelines (Title Case labels, sentence-case descriptions, "Whether…" for booleans, "… Name or ID" for dynamic options, no "error/failed" wording in messages).
-- **Backward compatibility:** never rename a parameter `name` or an option `value` (they are stored in users' workflows). Only labels may change. Resource values are still Portuguese (`clientes`, `fornecedores`, `produtos`, `documentos`) for that reason.
+- **Backward compatibility:** parameter `name`s and option `value`s are stored in users' workflows. Never rename or move one without a **major** version bump and a migration note in the README (n8n does not convert stored values and does not warn). Version 4.0.0 moved the optional fields into `Additional Fields` / `Filters` collections this way. Resource values are still Portuguese (`clientes`, `fornecedores`, `produtos`, `documentos`) for that reason.
 - No `console.*` (request bodies can contain customer data).
 
 ## Architecture
@@ -32,7 +32,7 @@ Releases go through `npm run release` (release-it) and the `Publish` GitHub Acti
 ```
 credentials/ArtsoftApi.credentials.ts   # credential `artsoftApi`: device registration + login
 nodes/Artsoft/Artsoft.node.ts           # node description, loadOptions, execute loop
-nodes/Artsoft/GenericFunctions.ts       # artsoftApiRequest(): POST XML, parse response
+nodes/Artsoft/GenericFunctions.ts       # artsoftApiRequest(), getOptionalField(), returnAllProperties()
 nodes/Artsoft/resolver/                 # one folder per resource (properties + XML builders)
 helper/xml.ts                           # dependency-free parseXml / buildXml / fixEncoding
 tests/xml.parity.test.mjs               # parity tests against the previous XML libraries
@@ -64,9 +64,13 @@ A new device stays pending until approved in ARTSOFT; the login error says so. A
 
 Customer, Supplier, Product (get/create/update/delete), Document (create, get, sign, delete), Workflow (list, get, create, update, delete) and CRM Event (list, get, create, update, add message, delete). The execute loop treats a non-empty `err` attribute in the response as a failure.
 
+## Field layout
+
+Required fields are at the top level of each operation; optional ones live in an `Additional Fields` collection (create/update) or a `Filters` collection (lists), and *Workflow → Get Many* has **Return All / Limit**. The resolvers read optional values with `getOptionalField()`, and only list operations that return an array produce one item per record. Field requirements come from the node (`required: true`): the ARTSOFT services were checked for the identifiers (`logTpOp`/`logOp`, `id`, `eventID`) but not for business fields such as name or NIF.
+
 ## Testing notes
 
-`npm test` compares `helper/xml.ts` with the original libraries on fixed cases and seeded fuzzing. Change the helper only together with these tests. The node itself has no automated end-to-end tests; the operations were tested manually with `npm run dev` against a real ARTSOFT instance before the 2.0.0 release. Repeat that manual check after changes to resolvers or authentication.
+`npm test` runs, against `dist/`: the `helper/xml.ts` parity tests; `tests/requests.test.mjs`, which compares the XML request of every create/update/delete operation with the references in `tests/__golden__/` (recorded before the optional fields moved into collections; `UPDATE_GOLDEN=1` only writes missing references, `UPDATE_GOLDEN=all` rewrites them, only when a change of the request is intended); and `tests/workflow-pagination.test.mjs` for the Return All / Limit loop. The pagination responses are built from the XML Server description, not captured from a server. The node has no automated end-to-end tests; the operations were tested manually with `npm run dev` against a real ARTSOFT instance before the 2.0.0 release. Repeat that manual check after changes to resolvers or authentication.
 
 ## Open items
 
