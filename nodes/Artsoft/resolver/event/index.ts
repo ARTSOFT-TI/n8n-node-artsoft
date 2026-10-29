@@ -1,5 +1,5 @@
 import { IExecuteFunctions } from 'n8n-workflow';
-import { artsoftApiRequest } from '../../GenericFunctions';
+import { artsoftApiRequest, getOptionalField } from '../../GenericFunctions';
 import { buildXml } from '../../../../helper/xml';
 
 // ─── List Events ──────────────────────────────────────────────────────────────
@@ -12,11 +12,11 @@ export async function executeListEvents(
 	const entityId = this.getNodeParameter('eventEntityId', i) as string;
 	const typeEntity = this.getNodeParameter('typeEntity', i) as string;
 	const code = this.getNodeParameter('eventCode', i) as string;
-	const detail = this.getNodeParameter('eventDetail', i, 'A') as string;
-	const detorder = this.getNodeParameter('eventDetOrder', i, 'D') as string;
-	const dethidden = this.getNodeParameter('eventDethidden', i, true) as boolean;
-	const fduEvt = this.getNodeParameter('eventFduEvt', i, true) as boolean;
-	const fduTer = this.getNodeParameter('eventFduTer', i, true) as boolean;
+	const detail = getOptionalField(this, i, 'eventFilters', 'status', 'A');
+	const detorder = getOptionalField(this, i, 'eventFilters', 'sortOrder', 'D');
+	const dethidden = getOptionalField(this, i, 'eventFilters', 'showHiddenDetails', true);
+	const fduEvt = getOptionalField(this, i, 'eventFilters', 'includeEventAdditionalFields', true);
+	const fduTer = getOptionalField(this, i, 'eventFilters', 'includeThirdPartyAdditionalFields', true);
 
 	const xmlBody = buildXml({
 		event: {
@@ -175,7 +175,7 @@ export async function executeDeleteEvent(
 	i: number,
 ): Promise<Record<string, unknown>> {
 	const eventId = this.getNodeParameter('eventId', i) as string;
-	const forceDel = this.getNodeParameter('eventForceDel', i, false) as boolean;
+	const forceDel = getOptionalField(this, i, 'eventDeleteFields', 'forceDelete', false);
 
 	const eventAttrs: Record<string, unknown> = { '@eventID': eventId };
 	if (forceDel) eventAttrs['@forceDel'] = 's';

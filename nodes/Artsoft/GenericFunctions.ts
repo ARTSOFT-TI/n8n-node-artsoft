@@ -1,4 +1,10 @@
-import type { IExecuteFunctions, IHttpRequestOptions, ILoadOptionsFunctions } from 'n8n-workflow';
+import type {
+	IDataObject,
+	IExecuteFunctions,
+	IHttpRequestOptions,
+	ILoadOptionsFunctions,
+	INodeProperties,
+} from 'n8n-workflow';
 import { NodeApiError } from 'n8n-workflow';
 import { parseXml } from '../../helper/xml';
 
@@ -43,4 +49,40 @@ export async function artsoftApiRequest(
 			},
 		);
 	}
+}
+
+/** Reads an optional field from an Additional Fields / Filters collection. */
+export function getOptionalField<T>(
+	context: IExecuteFunctions,
+	i: number,
+	collection: string,
+	name: string,
+	fallback: T,
+): T {
+	const group = context.getNodeParameter(collection, i, {}) as IDataObject;
+	return (group[name] as T) ?? fallback;
+}
+
+export function returnAllProperties(resource: string, operations: string[]): INodeProperties[] {
+	return [
+		{
+			displayName: 'Return All',
+			name: 'returnAll',
+			type: 'boolean',
+			default: false,
+			displayOptions: { show: { resource: [resource], operation: operations } },
+			description: 'Whether to return all results or only up to a given limit',
+		},
+		{
+			displayName: 'Limit',
+			name: 'limit',
+			type: 'number',
+			default: 50,
+			typeOptions: { minValue: 1 },
+			displayOptions: {
+				show: { resource: [resource], operation: operations, returnAll: [false] },
+			},
+			description: 'Max number of results to return',
+		},
+	];
 }

@@ -1,0 +1,4 @@
+{
+	"endpoint": "TerFch/Update",
+	"body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Entity RetID=\"S\" status=\"S\" trans=\"S\"><BaseAddr><For.Numero>7</For.Numero><Ter.Telef>220000001</Ter.Telef></BaseAddr></Entity>"
+}

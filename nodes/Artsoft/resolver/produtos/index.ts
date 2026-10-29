@@ -1,5 +1,5 @@
 import { IExecuteFunctions } from 'n8n-workflow';
-import { artsoftApiRequest } from '../../GenericFunctions';
+import { artsoftApiRequest, getOptionalField } from '../../GenericFunctions';
 import { buildXml } from '../../../../helper/xml';
 
 export async function executeGetProduct(
@@ -28,9 +28,9 @@ export async function executeCreateProduct(
 	i: number,
 ): Promise<Record<string, unknown>> {
 	const codigo = this.getNodeParameter('productCode', i) as string;
-	const opcional = this.getNodeParameter('productOptional', i) as string;
+	const opcional = getOptionalField(this, i, 'productAdditionalFields', 'optionalCode', '');
 	const nome = this.getNodeParameter('productName', i) as string;
-	const obs = this.getNodeParameter('productObs', i) as string;
+	const obs = getOptionalField(this, i, 'productAdditionalFields', 'notes', '');
 
 	const mainRec: Record<string, unknown> = {
 		'Cod.Codigo': codigo,
@@ -56,9 +56,9 @@ export async function executeUpdateProduct(
 ): Promise<Record<string, unknown>> {
 	// const id = this.getNodeParameter('productId', i) as string;
 	const codigo = this.getNodeParameter('productCode', i) as string;
-	const opcional = this.getNodeParameter('productOptional', i) as string;
-	const nome = this.getNodeParameter('productName', i) as string;
-	const obs = this.getNodeParameter('productObs', i) as string;
+	const opcional = getOptionalField(this, i, 'productUpdateFields', 'optionalCode', '');
+	const nome = getOptionalField(this, i, 'productUpdateFields', 'name', '');
+	const obs = getOptionalField(this, i, 'productUpdateFields', 'notes', '');
 
 	const mainRec: Record<string, unknown> = {};
 	if (codigo) mainRec['Cod.Codigo'] = codigo;

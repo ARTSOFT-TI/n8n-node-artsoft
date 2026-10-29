@@ -1,0 +1,4 @@
+{
+	"endpoint": "DocFch/DocInsert",
+	"body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><document docID=\"FT\" entityID=\"C:12\" retbidID=\"S\" trans=\"S\" RetID=\"S\" status=\"S\" validRecs=\"T\"><docitems><rec><Cod.Codigo>A1</Cod.Codigo><Qtd.Real>2</Qtd.Real><Val.UnBru>10</Val.UnBru></rec></docitems></document>"
+}

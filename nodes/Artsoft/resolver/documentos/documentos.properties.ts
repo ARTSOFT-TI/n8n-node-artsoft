@@ -65,12 +65,21 @@ export const documentProperties: INodeProperties[] = [
 		description: 'Entity number (combined with the type, e.g. C:1000)',
 	},
 	{
-		displayName: 'Notes (Doc.Obs)',
-		name: 'docObs',
-		type: 'string',
-		default: '',
+		displayName: 'Additional Fields',
+		name: 'documentAdditionalFields',
+		type: 'collection',
+		placeholder: 'Add Field',
+		default: {},
 		displayOptions: { show: { resource: ['documentos'], operation: ['createDocument'] } },
-		description: 'Document header notes',
+		options: [
+			{
+				displayName: 'Notes (Doc.Obs)',
+				name: 'notes',
+				type: 'string',
+				default: '',
+				description: 'Document header notes',
+			},
+		],
 	},
 	{
 		displayName: 'Document Items',
@@ -167,11 +176,20 @@ export const documentProperties: INodeProperties[] = [
 		description: 'Full document ID in TpDoc/NrDoc format (e.g. V010/2429)',
 	},
 	{
-		displayName: 'Cancellation Reason (MotDel)',
-		name: 'motDel',
-		type: 'number',
-		default: 0,
+		displayName: 'Additional Fields',
+		name: 'documentDeleteFields',
+		type: 'collection',
+		placeholder: 'Add Field',
+		default: {},
 		displayOptions: { show: { resource: ['documentos'], operation: ['deleteDocument'] } },
-		description: 'Cancellation reason number (optional)',
+		options: [
+			{
+				displayName: 'Cancellation Reason (MotDel)',
+				name: 'deletionReason',
+				type: 'number',
+				default: 0,
+				description: 'Cancellation reason number (optional)',
+			},
+		],
 	},
 ];

@@ -1,0 +1,4 @@
+{
+	"endpoint": "DocFch/DocDelete",
+	"body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><document docID=\"FT 1/5\" status=\"S\"/>"
+}

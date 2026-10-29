@@ -67,10 +67,12 @@ Main fields per resource:
 - **Customer / Supplier:** name, tax ID (NIF), email, phone, notes and address (street, city, postal code). *Get* and *Delete* use the customer or supplier number.
 - **Product:** code (`Cod.Codigo`), name (`Nome.0`), optional code (e.g. EAN) and notes. *Get* uses the code, *Delete* the internal product ID.
 - **Document:** document type (e.g. `V010`), entity type (customer or supplier), entity ID, notes and a list of lines (code, quantity, gross unit value). *Sign* and *Delete* use the full document ID in `TpDoc/NrDoc` format (e.g. `V010/2429`); *Delete* accepts an optional cancellation reason.
-- **Workflow:** workflow type (Leads or Suggestions), user ID, subject, notes, priority and additional (CDU) fields. *Get Many* supports page size, cursor and sort order.
+- **Workflow:** workflow type (Leads or Suggestions), user ID, subject, notes, priority and additional (CDU) fields. *Get Many* has **Return All** / **Limit** and a **Filters** collection (sort order, show actions, show additional fields); it returns one item per record.
 - **CRM Event:** entity ID and type (customer, supplier or other), event code (`x.yy`), event number, contact, subject, message, qualifiers and filters (status, sort order, hidden details). *Delete* can force deletion of events that already have recorded handling.
 
 Parameter labels show the ARTSOFT field name in parentheses where it helps, for example *Code (Cod.Codigo)*.
+
+On *Create* and *Update* only the required fields are shown by default; the optional ones are in **Additional Fields**, and on *Get Many* / list operations in **Filters**. On *Update*, only the fields you add are changed.
 
 ## Example workflow
 
@@ -92,7 +94,19 @@ If the root element of the response (`message`, `document` or `Entity`) has a no
 - Requires an n8n version that supports community nodes with `n8nNodesApiVersion` 1.
 - The node sends one request per input item.
 - XML `DOCTYPE` declarations in responses are ignored (custom entities are not expanded).
-- Parameter names and option values are kept stable between versions, so saved workflows keep working. Labels may change.
+- Parameter names and option values are stored in saved workflows. Changing them is a breaking change and only happens in a major version (see below).
+
+### Migrating from 3.x to 4.0
+
+Version 4.0 changes the field layout. n8n does **not** convert the stored values, so review the workflows that use the ARTSOFT node and fill the moved fields in again:
+
+| Change | Before (3.x) | Now (4.x) |
+|---|---|---|
+| Optional fields on *Create* / *Update* (NIF, email, phone, notes, optional code, document notes, cancellation reason, client number of a workflow, force deletion) | Top-level fields | **Additional Fields** collection |
+| Display options of *CRM Event → Get Many* and *Workflow → Get Many* | Top-level fields | **Filters** collection |
+| *Workflow → Get Many* paging | **Page Size** and **Cursor (Next)** | **Return All** / **Limit** (the node follows the cursor) |
+| *Workflow → Get Many* output | One item with the whole response | One item per workflow record |
+| *Product → Update* **Code (Cod.Codigo)** | Optional | Required |
 
 ## Resources
 

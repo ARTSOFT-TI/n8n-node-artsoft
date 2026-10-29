@@ -1,0 +1,4 @@
+{
+	"endpoint": "TerFch/Update",
+	"body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Entity RetID=\"S\" status=\"S\" trans=\"S\" createFor=\"2\"><BaseAddr><Ter.Nome>Forn Um</Ter.Nome><Ter.NrIdFisc>999999991</Ter.NrIdFisc><Ter.EMail>f@b.pt</Ter.EMail><Ter.Telef>220000000</Ter.Telef><Ter.Obs>nota</Ter.Obs><Ter.Morada>Rua A 1</Ter.Morada><Ter.Localid>Lisboa</Ter.Localid><Ter.CPPais>1000-001</Ter.CPPais></BaseAddr></Entity>"
+}

@@ -1,0 +1,4 @@
+{
+	"endpoint": "CRMHdr/Status",
+	"body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><event code=\"80.51\" dethidden=\"S\" entityID=\"C:8000\" detail=\"A\" detorder=\"D\" fduEvt=\"S\" fduTer=\"S\"/>"
+}
